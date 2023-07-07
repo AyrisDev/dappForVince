@@ -24,6 +24,7 @@ import {
   WalletConnectComponent,
 } from ".";
 
+import { addWallet } from "../hooks/vincechaintestnet/addVince";
 export const WalletCardSection = ({ chainName }: { chainName: string }) => {
   const { connect, openView, status, username, address, message, wallet } =
     useChain(chainName);
@@ -31,6 +32,7 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
+    await addWallet();
     await connect();
   };
 
@@ -44,7 +46,7 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
     <WalletConnectComponent
       walletStatus={status}
       disconnect={
-        <Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />
+        <Disconnected buttonText="Connectss Wallet" onClick={onClickConnect} />
       }
       connecting={<Connecting />}
       connected={
@@ -101,8 +103,7 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
           )}
           spacing={4}
           px={4}
-          py={{ base: 6, md: 12 }}
-        >
+          py={{ base: 6, md: 12 }}>
           {userInfo}
           {addressBtn}
           <Box w="full" maxW={{ base: 52, md: 64 }}>
