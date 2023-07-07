@@ -12,7 +12,7 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import { ChainLogo, truncDecimals } from "./osmosis-assets";
-import { SwapDropdown } from "@cosmology-ui/react";
+//import { SwapDropdown } from "@cosmology-ui/react";
 import {
   PrettyAsset,
   PrettyAssetOption,
@@ -259,12 +259,12 @@ const DropdownInput: React.FC<IProps> = ({
       </Flex>
 
       <Box mt="-58px">
-        <SwapDropdown
+        {/*    <SwapDropdown
           isOpen={isOpen}
           onClose={onClose}
           dropdownData={assetOptions}
           onDropdownChange={handleOnChange}
-        />
+        /> */}
       </Box>
     </Box>
   );
