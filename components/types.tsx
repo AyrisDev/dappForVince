@@ -167,3 +167,5 @@ export type Token = {
 };
 
 export type TransferValues = (typeof Transfer)[keyof typeof Transfer];
+
+export type PrettyAssetOption = PrettyAsset & AssetOption;
