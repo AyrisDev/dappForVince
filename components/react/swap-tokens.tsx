@@ -16,7 +16,7 @@ import {
   calcAmountWithSlippage,
   calcPriceImpactGivenIn,
   calcPriceImpactGivenOut,
-  getchainName,
+  getChainName,
   getExponentByDenom,
   getOsmoAssetByDenom,
   getPriceHash,
@@ -68,7 +68,7 @@ export const SwapTokens = () => {
 
   const getPrettychainName = useCallback(
     (ibcDenom: CoinDenom) => {
-      const chainName = getchainName(ibcDenom);
+      const chainName = getChainName(ibcDenom);
       const chainRecord = getChainRecord(chainName);
       return chainRecord.chain.pretty_name;
     },
