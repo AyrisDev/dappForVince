@@ -16,6 +16,10 @@ import {
 } from "./types";
 import { osmosisAssets } from "./assets";
 import { Asset as OsmosisAsset } from "@chain-registry/types";
+import {
+  assets as nativeAssets,
+  asset_list as ibcAssets,
+} from "@chain-registry/osmosis";
 
 export const exponentiate = (num: number | string, exp: number) => {
   return new BigNumber(num)
@@ -45,16 +49,6 @@ export const getPriceHash = async () => {
   );
 
   return priceHash;
-};
-
-export const getChainName = (ibcDenom: CoinDenom) => {
-  if (nativeAssets.assets.find((asset) => asset.base === ibcDenom)) {
-    return chainName;
-  }
-  const asset = ibcAssets.assets.find((asset) => asset.base === ibcDenom);
-  const ibcChainName = asset?.traces?.[0].counterparty.chain_name;
-  if (!ibcChainName) throw Error("chainName not found: " + ibcDenom);
-  return ibcChainName;
 };
 
 export const getExponent = (chainName: string) => {
@@ -254,16 +248,6 @@ export const getExponentByDenom = (denom: CoinDenom): Exponent => {
   const asset = getOsmoAssetByDenom(denom);
   const unit = asset.denom_units.find(({ denom }) => denom === asset.display);
   return unit.exponent;
-};
-
-export const convertGeckoPricesToDenomPriceHash = (
-  prices: CoinGeckoUSDResponse
-): PriceHash => {
-  return Object.keys(prices).reduce((res, geckoId) => {
-    const denom = getDenomForCoinGeckoId(geckoId);
-    res[denom] = prices[geckoId].usd;
-    return res;
-  }, {});
 };
 
 export const noDecimals = (num: number | string) => {

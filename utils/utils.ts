@@ -14,6 +14,7 @@ import {
   asset_list as ibcAssets,
 } from "@chain-registry/osmosis";
 import { chainName } from "../config";
+
 export const getOsmoAssetByDenom = (denom: CoinDenom): OsmosisAsset => {
   return osmosisAssets.find((asset) => asset.base === denom) as OsmosisAsset;
 };
