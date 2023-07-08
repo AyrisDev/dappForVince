@@ -43,7 +43,7 @@ export const WalletSection = ({
         {chainName ? (
           <WalletCardSection chainName={chainName}></WalletCardSection>
         ) : (
-          <ConnectWalletButton buttonText={"Connectss Wallet"} isDisabled />
+          <ConnectWalletButton buttonText={"Connect Wallet"} isDisabled />
         )}
       </Grid>
     </Center>

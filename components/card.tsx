@@ -46,7 +46,7 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
     <WalletConnectComponent
       walletStatus={status}
       disconnect={
-        <Disconnected buttonText="Connectss Wallet" onClick={onClickConnect} />
+        <Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />
       }
       connecting={<Connecting />}
       connected={
