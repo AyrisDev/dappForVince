@@ -10,8 +10,8 @@ import {
   Stack,
   Text,
   useOutsideClick,
-} from '@chakra-ui/react';
-import { AnimateBox, DropdownVariants, useTheme } from '@cosmology-ui/react';
+} from "@chakra-ui/react";
+import { AnimateBox, DropdownVariants, useTheme } from "@cosmology-ui/react";
 import {
   AsyncSelect,
   chakraComponents,
@@ -21,21 +21,21 @@ import {
   OptionProps,
   PlaceholderProps,
   SelectInstance,
-} from 'chakra-react-select';
-import { Searcher } from 'fast-fuzzy';
-import { AnimatePresence } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
-import { RiArrowDownSLine } from 'react-icons/ri';
+} from "chakra-react-select";
+import { Searcher } from "fast-fuzzy";
+import { AnimatePresence } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { RiArrowDownSLine } from "react-icons/ri";
 
 import {
   SwapSkeletonControlDropdownButton,
   SwapSkeletonOptions,
-} from './swap-skeleton';
+} from "./swap-skeleton";
 import {
   SwapControlDropdownButtonType,
   SwapDropdownType,
   SwapOptionType,
-} from './type';
+} from "./type";
 
 export const SwapDropdownMenuBaseShadowAnimate = (displayBlur: boolean) =>
   displayBlur
@@ -43,7 +43,7 @@ export const SwapDropdownMenuBaseShadowAnimate = (displayBlur: boolean) =>
         opacity: 1,
         height: 28,
         transition: {
-          type: 'spring',
+          type: "spring",
           duration: 0.1,
         },
       }
@@ -51,7 +51,7 @@ export const SwapDropdownMenuBaseShadowAnimate = (displayBlur: boolean) =>
         height: 0,
         opacity: 0,
         transition: {
-          type: 'spring',
+          type: "spring",
           duration: 0.2,
         },
       };
@@ -86,7 +86,7 @@ export const SwapDropdownMenuList = (
         if (height >= 1) setDisplayBlur(true);
       };
 
-      listEle.addEventListener('scroll', scrollHandler);
+      listEle.addEventListener("scroll", scrollHandler);
     }
   }, [props.options.length]);
 
@@ -159,84 +159,84 @@ export const SwapDropdownBaseStyle = (theme: string) => {
   > = {
     control: (provided) => ({
       ...provided,
-      position: 'absolute',
+      position: "absolute",
       minH: 12,
       height: 16,
       lineHeight: 1,
-      borderRadius: 'none',
+      borderRadius: "none",
       bg: `swap-dropdown-background-color-${theme}`,
-      border: 'none',
+      border: "none",
       _focus: {
-        boxShadow: 'none',
+        boxShadow: "none",
       },
     }),
     loadingIndicator: (provided) => ({ ...provided, opacity: 0.55 }),
     loadingMessage: (provided) => ({
       ...provided,
-      '>.swap-skeleton-option': {
-        w: 'full',
-        h: 'full',
-        justifyContent: 'space-between',
+      ">.swap-skeleton-option": {
+        w: "full",
+        h: "full",
+        justifyContent: "space-between",
         mb: 4,
         pl: 2,
         pr: 1,
         _last: { mb: 2 },
-        '>.swap-skeleton-options-logo': {
+        ">.swap-skeleton-options-logo": {
           w: 12,
           h: 12,
         },
-        '>.swap-skeleton-options-text': {
-          justifyContent: 'center',
-          borderRadius: 'base',
-          '>:first-of-type': {
+        ">.swap-skeleton-options-text": {
+          justifyContent: "center",
+          borderRadius: "base",
+          ">:first-of-type": {
             w: 28,
             h: 4,
           },
-          '>:last-of-type': {
+          ">:last-of-type": {
             w: 20,
             h: 3,
           },
           _first: {
             flex: 1,
-            alignItems: 'start',
+            alignItems: "start",
           },
-          _last: { flex: 1, alignItems: 'end' },
+          _last: { flex: 1, alignItems: "end" },
         },
       },
     }),
     placeholder: (provided) => ({
       ...provided,
-      w: 'full',
+      w: "full",
       left: 0,
       px: 5,
       mx: 0,
-      '>.swap-dropdown-display-placeholder': {
-        w: 'full',
-        alignItems: 'center',
+      ">.swap-dropdown-display-placeholder": {
+        w: "full",
+        alignItems: "center",
         color: `swap-dropdown-placeholder-color-${theme}`,
-        '>p': {
+        ">p": {
           flex: 1,
-          fontSize: 'lg',
-          fontWeight: 'semibold',
+          fontSize: "lg",
+          fontWeight: "semibold",
           ml: 3,
           opacity: 0.5,
         },
-        '>.swap-skeleton-options-logo': {
+        ">.swap-skeleton-options-logo": {
           w: 12,
           h: 12,
         },
-        '>.swap-skeleton-options-text': {
-          justifyContent: 'center',
-          alignItems: 'end',
-          '>:first-of-type': {
+        ">.swap-skeleton-options-text": {
+          justifyContent: "center",
+          alignItems: "end",
+          ">:first-of-type": {
             w: 24,
             h: 5,
-            borderRadius: 'base',
+            borderRadius: "base",
           },
-          '>:last-of-type': {
+          ">:last-of-type": {
             w: 16,
             h: 4,
-            borderRadius: 'base',
+            borderRadius: "base",
           },
         },
       },
@@ -251,16 +251,16 @@ export const SwapDropdownBaseStyle = (theme: string) => {
       mb: 0,
       pt: 1.5,
       bg: `swap-dropdown-background-color-${theme}`,
-      borderRadius: '0 0 var(--chakra-radii-lg) var(--chakra-radii-lg)',
-      overflow: 'hidden',
-      '>.swap-dropdown-menu-list-box': {
-        position: 'relative',
-        '>.swap-dropdown-menu-list-box-scroll-shadow': {
-          position: 'absolute',
+      borderRadius: "0 0 var(--chakra-radii-lg) var(--chakra-radii-lg)",
+      overflow: "hidden",
+      ">.swap-dropdown-menu-list-box": {
+        position: "relative",
+        ">.swap-dropdown-menu-list-box-scroll-shadow": {
+          position: "absolute",
           left: 0,
           right: 0,
           bottom: 0,
-          w: 'full',
+          w: "full",
           zIndex: 10,
           bg: `var(--chakra-shadows-swap-dropdown-animation-background-color-${theme})`,
         },
@@ -272,35 +272,35 @@ export const SwapDropdownBaseStyle = (theme: string) => {
       pl: 4,
       pr: state.options.length < 5 ? 4 : 0,
       pb: 1.5,
-      bg: 'inherit',
-      border: 'none',
-      borderRadius: 'none',
-      boxShadow: 'none',
-      position: 'relative',
+      bg: "inherit",
+      border: "none",
+      borderRadius: "none",
+      boxShadow: "none",
+      position: "relative",
       // For Firefox
-      scrollbarWidth: 'thin',
+      scrollbarWidth: "thin",
       scrollbarColor: `var(--chakra-colors-change-chain-dropdown-firefox-scrollbar-color-${theme})`,
       // For Chrome and other browsers except Firefox
-      '&::-webkit-scrollbar': {
-        width: '16px',
+      "&::-webkit-scrollbar": {
+        width: "16px",
         background: `swap-dropdown-background-color-${theme}`,
-        borderRadius: '3px',
+        borderRadius: "3px",
       },
-      '&::-webkit-scrollbar-thumb': {
-        background: 'gray.400',
-        borderRadius: '10px',
-        border: '6px solid transparent', // make it like padding
-        backgroundClip: 'content-box',
+      "&::-webkit-scrollbar-thumb": {
+        background: "gray.400",
+        borderRadius: "10px",
+        border: "6px solid transparent", // make it like padding
+        backgroundClip: "content-box",
       },
     }),
     option: (provided, state) => ({
       ...provided,
-      paddingInlineStart: 'unset',
-      paddingInlineEnd: 'unset',
+      paddingInlineStart: "unset",
+      paddingInlineEnd: "unset",
       p: 3,
       mb: 1,
       _last: { mb: 3 },
-      borderRadius: 'base',
+      borderRadius: "base",
       bg: state.isSelected
         ? `swap-dropdown-option-selected-background-color-${theme}`
         : state.isFocused
@@ -313,48 +313,48 @@ export const SwapDropdownBaseStyle = (theme: string) => {
           : `swap-dropdown-option-hover-background-color-${theme}`,
       },
       _disabled: {
-        bg: 'transparent',
+        bg: "transparent",
         _hover: {
-          bg: 'transparent',
+          bg: "transparent",
         },
       },
-      '>.swap-dropdown-option': {
-        w: 'full',
-        alignItems: 'center',
-        '>:first-of-type': {
+      ">.swap-dropdown-option": {
+        w: "full",
+        alignItems: "center",
+        ">:first-of-type": {
           w: 10,
           h: 10,
           mr: 3,
-          '>img': {
-            w: 'full',
+          ">img": {
+            w: "full",
           },
         },
-        '>:not(:first-of-type, :last-child)': {
+        ">:not(:first-of-type, :last-child)": {
           flex: 1,
-          justifyContent: 'center',
-          '>:first-of-type': {
-            fontSize: 'lg',
-            fontWeight: 'semibold',
-            lineHeight: 'none',
+          justifyContent: "center",
+          ">:first-of-type": {
+            fontSize: "lg",
+            fontWeight: "semibold",
+            lineHeight: "none",
           },
-          '>:last-child': {
-            fontSize: 'xs',
-            fontWeight: 'normal',
-            lineHeight: 'none',
+          ">:last-child": {
+            fontSize: "xs",
+            fontWeight: "normal",
+            lineHeight: "none",
             opacity: 0.7,
           },
         },
-        '>:last-child': {
-          textAlign: 'end',
-          '>:first-of-type': {
-            fontSize: 'lg',
-            fontWeight: 'semibold',
-            lineHeight: 'none',
+        ">:last-child": {
+          textAlign: "end",
+          ">:first-of-type": {
+            fontSize: "lg",
+            fontWeight: "semibold",
+            lineHeight: "none",
           },
-          '>:last-child': {
-            fontSize: 'xs',
-            fontWeight: 'base',
-            lineHeight: 'none',
+          ">:last-child": {
+            fontSize: "xs",
+            fontWeight: "base",
+            lineHeight: "none",
             opacity: 0.7,
           },
         },
@@ -390,15 +390,15 @@ export const SwapDropdown = ({
   };
 
   useEffect(() => {
-    document.addEventListener('focusin', handleFocusIn);
+    document.addEventListener("focusin", handleFocusIn);
     return () => {
-      document.removeEventListener('focusin', handleFocusIn);
+      document.removeEventListener("focusin", handleFocusIn);
     };
   }, []);
 
   useEffect(() => {
     if (active && isOpen && selectRef.current?.inputRef) {
-      if (active.id === 'swap-control-dropdown-button') {
+      if (active.id === "swap-control-dropdown-button") {
         selectRef.current.inputRef.focus();
       }
     }
@@ -413,8 +413,7 @@ export const SwapDropdown = ({
           variants={DropdownVariants}
           initial="initial"
           animate="animate"
-          exit="exit"
-        >
+          exit="exit">
           <AsyncSelect
             ref={selectRef}
             id="select-swap-token"
@@ -453,10 +452,6 @@ export const SwapDropdown = ({
 
               callback(result);
             }}
-            onChange={(newValue, actionMeta) => {
-              onClose();
-              onDropdownChange(newValue, actionMeta);
-            }}
             components={{
               IndicatorSeparator: SwapIndicatorSeparator,
               DropdownIndicator: SwapDropdownIndicator,
@@ -484,11 +479,10 @@ export const SwapControlDropdownButton = ({
       id="swap-control-dropdown-button"
       className="swap-control-dropdown-button"
       variant="unstyled"
-      onClick={onOpen}
-    >
+      onClick={onOpen}>
       <Center>
         <Image
-          alt={selectedToken ? selectedToken.chainName : 'chain-icon'}
+          alt={selectedToken ? selectedToken.chainName : "chain-icon"}
           src={
             selectedToken.icon?.png ||
             selectedToken.icon?.jpeg ||
