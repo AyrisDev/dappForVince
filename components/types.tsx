@@ -168,4 +168,9 @@ export type Token = {
 
 export type TransferValues = (typeof Transfer)[keyof typeof Transfer];
 
+export type AssetOption = {
+  value: string;
+  icon: { png: string | undefined };
+};
+
 export type PrettyAssetOption = PrettyAsset & AssetOption;
