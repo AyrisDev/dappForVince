@@ -22,7 +22,7 @@ import {
 
 export const calcPoolLiquidity = (pool: Pool, prices: PriceHash): string => {
   return pool.poolAssets
-    .reduce((res, { token }) => {
+    .reduce((res, { token }: any) => {
       const liquidity = new BigNumber(token.amount)
         .shiftedBy(-getExponentByDenom(token.denom))
         .multipliedBy(prices[token.denom]);
@@ -32,7 +32,7 @@ export const calcPoolLiquidity = (pool: Pool, prices: PriceHash): string => {
 };
 
 export const getPoolByGammName = (pools: Pool[], gammId: string): Pool => {
-  return pools.find(({ totalShares: { denom } }) => denom === gammId);
+  return pools.find(({ totalShares: { denom } }: any) => denom === gammId);
 };
 
 export const convertGammTokenToDollarValue = (
@@ -54,7 +54,7 @@ export const convertDollarValueToCoins = (
   pool: Pool,
   prices: PriceHash
 ): CoinValue[] => {
-  const tokens = pool.poolAssets.map(({ token: { denom }, weight }) => {
+  const tokens = pool.poolAssets.map(({ token: { denom }, weight }: any) => {
     const ratio = new BigNumber(weight).dividedBy(pool.totalWeight);
     const valueByRatio = new BigNumber(value).multipliedBy(ratio);
     const displayAmount = valueByRatio.dividedBy(prices[denom]).toString();
@@ -97,7 +97,7 @@ export const prettyPool = (
   { includeDetails = false } = {}
 ): PoolPretty => {
   const totalWeight = new BigNumber(pool.totalWeight);
-  const tokens = pool.poolAssets.map(({ token, weight }) => {
+  const tokens: any = pool.poolAssets.map(({ token, weight }: any) => {
     const asset = assetHashMap?.[token.denom];
     const symbol = asset?.symbol ?? token.denom;
     const ratio = new BigNumber(weight).dividedBy(totalWeight).toString();
@@ -114,12 +114,12 @@ export const prettyPool = (
     return obj;
   });
   const value = {
-    nickname: tokens.map((t) => t.symbol).join("/"),
+    nickname: tokens.map((t: any) => t.symbol).join("/"),
     images: undefined,
   };
   if (includeDetails) {
     value.images = tokens
-      .map((t) => {
+      .map((t: any) => {
         const imgs = t?.info?.logo_URIs;
         if (imgs) {
           return {
@@ -224,7 +224,7 @@ export const calcShareOutAmount = (
   coinsNeeded: Coin[]
 ): string => {
   return poolInfo.poolAssets
-    .map(({ token }, i) => {
+    .map(({ token }: any, i) => {
       const tokenInAmount = new BigNumber(coinsNeeded[i].amount);
       const totalShare = new BigNumber(poolInfo.totalShares.amount);
       const totalShareExp = totalShare.shiftedBy(-18);
@@ -249,13 +249,15 @@ export const makePoolPairs = (
     .filter(
       (pool) =>
         pool.poolAssets.length === 2 &&
-        pool.poolAssets.every(({ token }) => !token.denom.startsWith("gamm")) &&
+        pool.poolAssets.every(
+          ({ token }: any) => !token.denom.startsWith("gamm")
+        ) &&
         new BigNumber(calcPoolLiquidity(pool, prices)).gte(liquidityLimit)
     )
     .map((pool) => {
-      const assetA = pool.poolAssets[0].token;
+      const assetA = pool.poolAssets[0].token as any;
       const assetAinfo = getOsmoAssetByDenom(assetA.denom);
-      const assetB = pool.poolAssets[1].token;
+      const assetB = pool.poolAssets[1].token as any;
       const assetBinfo = getOsmoAssetByDenom(assetB.denom);
 
       if (!assetAinfo || !assetBinfo) return;
