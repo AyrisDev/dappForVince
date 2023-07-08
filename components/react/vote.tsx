@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { ChainName } from '@cosmos-kit/core';
+import React, { useCallback, useEffect, useState } from "react";
+import { ChainName } from "@cosmos-kit/core";
 import {
   Box,
   Center,
@@ -9,13 +9,13 @@ import {
   useDisclosure,
   Text,
   useColorModeValue,
-} from '@chakra-ui/react';
-import { ProposalCard } from './proposal-card';
-import { ProposalModal } from './proposal-modal';
-import { useChain } from '@cosmos-kit/react';
-import { cosmos } from 'interchain';
-import type { Proposal } from 'interchain/types/codegen/cosmos/gov/v1beta1/gov';
-import BigNumber from 'bignumber.js';
+} from "@chakra-ui/react";
+import { ProposalCard } from "./proposal-card";
+import { ProposalModal } from "./proposal-modal";
+import { useChain } from "@cosmos-kit/react";
+import { cosmos } from "interchain";
+import type { Proposal } from "interchain/types/codegen/cosmos/gov/v1beta1/gov";
+import BigNumber from "bignumber.js";
 
 const ProposalStatus = cosmos.gov.v1beta1.ProposalStatus;
 
@@ -31,8 +31,8 @@ interface VotingData {
 }
 
 export const decodeUint8Arr = (uint8array: Uint8Array | undefined) => {
-  if (!uint8array) return '';
-  return new TextDecoder('utf-8').decode(uint8array);
+  if (!uint8array) return "";
+  return new TextDecoder("utf-8").decode(uint8array);
 };
 
 export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
@@ -48,20 +48,20 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
     let rpcEndpoint = await getRpcEndpoint();
 
     if (!rpcEndpoint) {
-      console.log('no rpc endpoint — using a fallback');
-      rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
+      console.log("no rpc endpoint — using a fallback");
+      rpcEndpoint = `http://154.53.47.14:26657/`;
     }
 
     const client = await cosmos.ClientFactory.createRPCQueryClient({
       rpcEndpoint:
-        typeof rpcEndpoint === 'string' ? rpcEndpoint : rpcEndpoint.url,
+        typeof rpcEndpoint === "string" ? rpcEndpoint : rpcEndpoint.url,
     });
 
     const { proposals: votedProposals } =
       await client.cosmos.gov.v1beta1.proposals({
         proposalStatus: ProposalStatus.PROPOSAL_STATUS_UNSPECIFIED,
         voter: address,
-        depositor: '',
+        depositor: "",
       });
 
     const votesRequests = votedProposals.map((proposal) => {
@@ -92,20 +92,20 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
       let rpcEndpoint = await getRpcEndpoint();
 
       if (!rpcEndpoint) {
-        console.log('no rpc endpoint — using a fallback');
-        rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
+        console.log("no rpc endpoint — using a fallback");
+        rpcEndpoint = `http://154.53.47.14:26657/`;
       }
 
       const client = await cosmos.ClientFactory.createRPCQueryClient({
         rpcEndpoint:
-          typeof rpcEndpoint === 'string' ? rpcEndpoint : rpcEndpoint.url,
+          typeof rpcEndpoint === "string" ? rpcEndpoint : rpcEndpoint.url,
       });
 
       // Get proposals
       const { proposals } = await client.cosmos.gov.v1beta1.proposals({
         proposalStatus: ProposalStatus.PROPOSAL_STATUS_UNSPECIFIED,
-        depositor: '',
-        voter: '',
+        depositor: "",
+        voter: "",
       });
 
       const sortedProposal = proposals.sort(
@@ -131,7 +131,7 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
 
       // Get quorum
       const { tallyParams } = await client.cosmos.gov.v1beta1.params({
-        paramsType: 'tallying',
+        paramsType: "tallying",
       });
 
       const quorumStr = decodeUint8Arr(tallyParams?.quorum);
@@ -158,9 +158,8 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
     <Center
       w="100%"
       h="200px"
-      bgColor={useColorModeValue('#fbfcfe', 'gray.900')}
-      borderRadius="xl"
-    >
+      bgColor={useColorModeValue("#fbfcfe", "gray.900")}
+      borderRadius="xl">
       <Spinner thickness="4px" color="purple.600" size="xl" />
     </Center>
   );
@@ -169,10 +168,9 @@ export const VotingSection = ({ chainName }: { chainName: ChainName }) => {
     <Center
       w="100%"
       h="100px"
-      bgColor={useColorModeValue('#fbfcfe', 'gray.900')}
-      borderRadius="xl"
-    >
-      <Text fontSize="lg" color={useColorModeValue('gray.600', 'gray.400')}>
+      bgColor={useColorModeValue("#fbfcfe", "gray.900")}
+      borderRadius="xl">
+      <Text fontSize="lg" color={useColorModeValue("gray.600", "gray.400")}>
         Please connect the wallet to see the proposals
       </Text>
     </Center>
