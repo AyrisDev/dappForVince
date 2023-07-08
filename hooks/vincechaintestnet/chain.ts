@@ -1,4 +1,4 @@
-import { Chain, AssetList } from "@chain-registry/types";
+import { AssetList, Chain } from "@chain-registry/types";
 
 export const vincetestnet: Chain = {
   $schema: "../chain.schema.json",
@@ -48,15 +48,6 @@ export const vincetestnet: Chain = {
     versions: [
       {
         name: "",
-        recommended_version: "",
-        compatible_versions: ["", ""],
-        binaries: {
-          "linux/amd64": "",
-          "linux/arm64": "",
-          "darwin/amd64": "",
-          "darwin/arm64": "",
-          "windows/amd64": "",
-        },
       },
     ],
   },
