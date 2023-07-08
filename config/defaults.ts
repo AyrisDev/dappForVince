@@ -19,6 +19,7 @@ import {
 
 export const defaultChainName = "vincechain";
 export const chainName = "vincechain";
+
 export const getChainAssets = (chainName: string = defaultChainName) => {
   return assets.find(
     (vincetestnetAssets) => vincetestnetAssets.chain_name === chainName

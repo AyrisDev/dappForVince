@@ -5,11 +5,56 @@ import type { Validator } from "interchain/types/codegen/cosmos/staking/v1beta1/
 export * from "./pool";
 export * from "./utils";
 export * from "./assets";
+export * from "./swap";
+import {
+  CoinGeckoToken,
+  CoinDenom,
+  Exponent,
+  CoinSymbol,
+  PriceHash,
+  CoinGeckoUSDResponse,
+} from "./types";
+import { osmosisAssets } from "./assets";
+import { Asset as OsmosisAsset } from "@chain-registry/types";
 
 export const exponentiate = (num: number | string, exp: number) => {
   return new BigNumber(num)
     .multipliedBy(new BigNumber(10).exponentiatedBy(exp))
     .toNumber();
+};
+
+export const getPriceHash = async () => {
+  let prices = [];
+
+  try {
+    const response = await fetch(
+      "https://api-osmosis.imperator.co/tokens/v2/all"
+    );
+    if (!response.ok) throw Error("Get price error");
+    prices = await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+
+  const priceHash: PriceHash = prices.reduce(
+    (prev: any, cur: { denom: any; price: any }) => ({
+      ...prev,
+      [cur.denom]: cur.price,
+    }),
+    {}
+  );
+
+  return priceHash;
+};
+
+export const getChainName = (ibcDenom: CoinDenom) => {
+  if (nativeAssets.assets.find((asset) => asset.base === ibcDenom)) {
+    return chainName;
+  }
+  const asset = ibcAssets.assets.find((asset) => asset.base === ibcDenom);
+  const ibcChainName = asset?.traces?.[0].counterparty.chain_name;
+  if (!ibcChainName) throw Error("chainName not found: " + ibcDenom);
+  return ibcChainName;
 };
 
 export const getExponent = (chainName: string) => {
@@ -174,4 +219,85 @@ export const calcStakingApr = ({
     .shiftedBy(2)
     .decimalPlaces(2, BigNumber.ROUND_DOWN)
     .toString();
+};
+
+export const getOsmoAssetByDenom = (denom: CoinDenom): OsmosisAsset => {
+  return osmosisAssets.find((asset) => asset.base === denom) as OsmosisAsset;
+};
+
+export const getDenomForCoinGeckoId = (
+  coinGeckoId: CoinGeckoToken
+): CoinDenom => {
+  return osmosisAssets.find((asset) => asset.coingecko_id === coinGeckoId).base;
+};
+
+export const osmoDenomToSymbol = (denom: CoinDenom): CoinSymbol => {
+  const asset = getOsmoAssetByDenom(denom);
+  const symbol = asset?.symbol;
+  if (!symbol) {
+    return denom;
+  }
+  return symbol;
+};
+
+export const symbolToOsmoDenom = (token: CoinSymbol): CoinDenom => {
+  const asset = osmosisAssets.find(({ symbol }) => symbol === token);
+  const base = asset?.base;
+  if (!base) {
+    console.log(`cannot find base for token ${token}`);
+    return null;
+  }
+  return base;
+};
+
+export const getExponentByDenom = (denom: CoinDenom): Exponent => {
+  const asset = getOsmoAssetByDenom(denom);
+  const unit = asset.denom_units.find(({ denom }) => denom === asset.display);
+  return unit.exponent;
+};
+
+export const convertGeckoPricesToDenomPriceHash = (
+  prices: CoinGeckoUSDResponse
+): PriceHash => {
+  return Object.keys(prices).reduce((res, geckoId) => {
+    const denom = getDenomForCoinGeckoId(geckoId);
+    res[denom] = prices[geckoId].usd;
+    return res;
+  }, {});
+};
+
+export const noDecimals = (num: number | string) => {
+  return new BigNumber(num).decimalPlaces(0, BigNumber.ROUND_DOWN).toString();
+};
+
+export const baseUnitsToDollarValue = (
+  prices: PriceHash,
+  symbol: string,
+  amount: string | number
+) => {
+  const denom = symbolToOsmoDenom(symbol);
+  return new BigNumber(amount)
+    .shiftedBy(-getExponentByDenom(denom))
+    .multipliedBy(prices[denom])
+    .toString();
+};
+
+export const dollarValueToDenomUnits = (
+  prices: PriceHash,
+  symbol: string,
+  value: string | number
+) => {
+  const denom = symbolToOsmoDenom(symbol);
+  return new BigNumber(value)
+    .dividedBy(prices[denom])
+    .shiftedBy(getExponentByDenom(denom))
+    .toString();
+};
+
+export const baseUnitsToDisplayUnits = (
+  symbol: string,
+  amount: string | number
+) => {
+  const denom = symbolToOsmoDenom(symbol);
+  return new BigNumber(amount).shiftedBy(-getExponentByDenom(denom)).toString();
 };

@@ -45,7 +45,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Stake", icon: FiTrendingUp, href: "/staking" },
   { name: "Assets", icon: FiCompass, href: "/assets" },
   { name: "Proposals", icon: FiStar, href: "/proposals" },
-  { name: "Settings", icon: FiSettings, href: "#" },
+  { name: "Swap", icon: FiSettings, href: "swap" },
 ];
 
 export default function SidebarWithHeader({
